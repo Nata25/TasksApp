@@ -1,0 +1,25 @@
+/* Modal styles */
+
+.preview-modal {
+  display: flex;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(153, 153, 153, .8);
+  z-index: 100;
+}
+
+.preview-modal__body {
+  width: 70vw;
+  padding: 1px 23px 30px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+}
+
+.preview-modal__buttons {
+  justify-content: flex-end;
+}
