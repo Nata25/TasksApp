@@ -7,11 +7,11 @@
 5. One can **filter** tasks based on their completion status.
 6. Sorting parameters and filters are resettable.
 7. Only **admin** can set task **completion**.
-8. To log in, provide __admin__ as login and __123__ as password.
+8. To log in, provide _admin_ as login and _123_ as password.
 9. Inputs and buttons are **accessible** via keyboard; focus is managed across components. 
 10. In case of input errors, user gets visual feedback.
 
-Basic __Bootstrap__ components are used. (Except for Preview modal component, which has custom styles and Redux-based logic, unlike BS modal).
+Basic _Bootstrap_ components are used. (Except for Preview modal component, which has custom styles and Redux-based logic, unlike BS modal).
 
 Access project [on GitHub pages](https://nata25.github.io/TasksApp/).
 
