@@ -9,6 +9,8 @@ export const SHOW_PREVIEW = 'SHOW_PREVIEW';
 export const HIDE_PREVIEW = 'HIDE_PREVIEW';
 export const FORM_REFRESH = 'FORM_REFRESH';
 export const PREVENT_FORM_REFRESH = 'PREVENT_FORM_REFRESH';
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 
 export const onGetTasks = () => ({
   type: GET_TASKS,
@@ -59,4 +61,12 @@ export const onFormRefresh = ({
 
 export const preventFormRefresh = () => ({
   type: PREVENT_FORM_REFRESH,
+});
+
+export const onLogin = () => ({
+  type: LOGIN,
+});
+
+export const onLogout = () => ({
+  type: LOGOUT,
 });

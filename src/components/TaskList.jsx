@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Task from './Task';
 import {
@@ -19,18 +19,20 @@ const TaskList = ({ tasks, sorting }) => {
 
   return (
     <div>
-      <ul className="list-group">
-        <li className="list-group-item">
-          {tasks
-            .sort(sortingCallback)
-            .map(
-              task =>
-                (<Task
-                  key={task.id}
+      <ul className="list-group flex-row justify-content-around row">
+        {tasks
+          .sort(sortingCallback)
+          .map(
+            task =>
+              (<li
+                key={task.id}
+                className="list-group-item col-md-8 col-lg-4"
+              >
+                <Task
                   id={task.id}
-                />),
-            )}
-        </li>
+                />
+              </li>),
+          )}
       </ul>
     </div>
   );

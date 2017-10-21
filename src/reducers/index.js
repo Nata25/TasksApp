@@ -4,6 +4,7 @@ import sorting from './sorting';
 import filtering from './filtering';
 import preview from './preview';
 import refresh from './refresh';
+import login from './login';
 
 const rootReducer = combineReducers({
   tasks,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   filtering,
   preview,
   refresh,
+  login,
 });
 
 export default rootReducer;

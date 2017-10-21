@@ -35,7 +35,7 @@ const Task = (props) => {
         <p className="font-weight-light mt-3">Status:
           <span className={`ml-1 ${colorIndicatorClass}`}>{status}</span>
         </p>
-        { props.isLabelShowing && <label
+        { props.isLabelShowing && props.isLoggedIn && <label
           htmlFor={`completion-${id}`}
           className="form-check-label font-weight-light"
         >
@@ -62,6 +62,7 @@ Task.propTypes = {
   onStatusChange: PropTypes.func.isRequired,
   task: PropTypes.shape(),
   isLabelShowing: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 Task.defaultProps = {
@@ -83,6 +84,7 @@ const mapStateToProps = (state, props) => {
   return {
     ...resultProps,
     isLabelShowing: !state.preview.status,
+    isLoggedIn: state.login,
   };
 };
 
