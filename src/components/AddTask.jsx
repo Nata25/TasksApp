@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import id from 'short-id';
 import PropTypes from 'prop-types';
+import request from 'superagent';
 import TaskPreview from './TaskPreview';
 
 import {
@@ -10,12 +11,25 @@ import {
   preventFormRefresh,
 } from '../actions';
 
+import {
+  CLOUDINARY_UPLOAD_PRESET,
+  CLOUDINARY_UPLOAD_URL,
+} from '../helpers';
+
 class AddTask extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isFormValid: false,
+      uploadedImgUrl: '',
     };
+  }
+
+  componentWillReceiveProps() {
+    // focus on first input after preview closing
+    if (this.props.previewShowing) {
+      this.author.focus();
+    }
   }
 
   componentDidUpdate() {
@@ -27,22 +41,17 @@ class AddTask extends Component {
     }
   }
 
-  componentWillReceiveProps() {
-    // focus on first input after preview closing
-    if (this.props.previewShowing) {
-      this.author.focus();
-    }
-  }
-
   handlePreview = () => {
     // check form validity before opening preview
+    // if ok, send only data needed for preview
     if (this.state.isFormValid) {
       this.props.showPreviewDispatch(
         this.author.value,
         this.email.value,
         this.text.value,
+        this.state.uploadedImgUrl,
       );
-    // display warning message and focus 'wrong' input field
+      // display warning message and focus 'wrong' input field
     } else {
       this.setState({
         isWarningDisplayed: true,
@@ -62,13 +71,12 @@ class AddTask extends Component {
   };
 
   refreshForm = () => {
-    this.author.value = '';
-    this.email.value = '';
-    this.text.value = '';
+    this.reset.click();
     this.addButton.focus();
     this.setState({
       isFormValid: false,
       isWarningDisplayed: false,
+      uploadedImgUrl: '',
     });
   };
 
@@ -86,15 +94,58 @@ class AddTask extends Component {
     }
   };
 
-  submitForm = () => {
-    this.props.addTaskDispatch(
-      this.author.value,
-      this.email.value,
-      this.text.value,
-      id.generate(),
-    );
-    this.refreshForm();
+  handleImageLoad = () => {
+    // prepare data to display in Task preview
+    const reader = new FileReader();
+    const file = this.image.files[0];
+    reader.onload = () => {
+      this.setState({
+        uploadedImgUrl: reader.result,
+      });
+    };
+    // load image if user added it,
+    // clear state if file input was reset
+    if (file) reader.readAsDataURL(file);
+    else {
+      this.setState({
+        uploadedImgUrl: '',
+      });
+    }
   };
+
+  handleFormSubmit = () => {
+    const readyData = {
+      author: this.author.value,
+      email: this.email.value,
+      text: this.text.value,
+      id: id.generate(),
+    };
+    // if image was added to form,
+    // send it to Cloudinary, get url and supply along with readyData
+    if (this.image.files[0]) {
+      const upload = request.post(CLOUDINARY_UPLOAD_URL)
+        .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+        .field('file', this.image.files[0]);
+      upload.end((err, response) => {
+        if (err) {
+          console.error(err);
+        }
+        if (response.body.secure_url !== '') {
+          this.saveData({
+            ...readyData,
+            img: response.body.secure_url,
+          });
+        }
+      });
+    // if no image, just send spread readyData
+    } else this.saveData({ ...readyData });
+  };
+
+  saveData(task) {
+    const { author, email, text, img, id } = task;
+    this.props.addTaskDispatch(author, email, text, img, id);
+    this.refreshForm();
+  }
 
   render() {
     return (
@@ -102,7 +153,9 @@ class AddTask extends Component {
         <button
           className="add-task-button btn btn-success m-3"
           type="button"
-          ref={(item) => { this.addButton = item; }}
+          ref={(item) => {
+            this.addButton = item;
+          }}
           data-toggle="collapse"
           data-target="#collapseExample"
           aria-expanded="false"
@@ -122,17 +175,17 @@ class AddTask extends Component {
             });
           }}
           method="post"
-          className="collapse border p-4"
+          className="collapse border mb-3 p-4"
           id="collapseExample"
           aria-expanded="false"
           aria-controls="collapseExample"
           onSubmit={(e) => {
             e.preventDefault();
-            this.submitForm();
+            this.handleFormSubmit();
           }}
         >
           <div className="form-group">
-            <label htmlFor="userName">Your name</label>
+            <label htmlFor="userName">Your name:</label>
             <input
               id="userName"
               className="form-control"
@@ -145,7 +198,7 @@ class AddTask extends Component {
           </div>
 
           <div className="form-group">
-            <label htmlFor="userEmail">Your email</label>
+            <label htmlFor="userEmail">Your email:</label>
             <input
               id="userEmail"
               className="form-control"
@@ -159,12 +212,12 @@ class AddTask extends Component {
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">Task description</label>
+            <label htmlFor="description">Task description:</label>
             <textarea
               id="description"
-              placeholder="up to 800 symbols"
+              placeholder="up to 750 symbols"
               rows={7}
-              maxLength={800}
+              maxLength={750}
               className="form-control"
               onKeyDown={this.customizeKeyDown}
               ref={(item) => {
@@ -173,13 +226,35 @@ class AddTask extends Component {
               required
             />
           </div>
+
+          <div className="form-group">
+            <label
+              htmlFor={`image-${id}`}
+              className=""
+            >
+              You can add an image <small>(optionally)</small>:
+            </label>
+            <input
+              id={`image-${id}`}
+              type="file"
+              accept="image/png,image/jpeg,image/gif"
+              className="form-control-file"
+              ref={(item) => {
+                this.image = item;
+              }}
+              onChange={this.handleImageLoad}
+            />
+          </div>
           <button className="btn btn-outline-success ml-1">
             Add a task
           </button>
           <button
             type="button"
             className="btn btn-outline-info ml-1"
-            onClick={this.handlePreview}
+            onClick={(e) => {
+              e.preventDefault();
+              this.handlePreview();
+            }}
           >
             Preview
           </button>
@@ -189,7 +264,11 @@ class AddTask extends Component {
             onClick={() => {
               this.setState({
                 isWarningDisplayed: false,
+                isFormValid: false,
               });
+            }}
+            ref={(item) => {
+              this.reset = item;
             }}
           >Clear
           </button>

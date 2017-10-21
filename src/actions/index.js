@@ -17,13 +17,14 @@ export const onGetTasks = () => ({
   payload: mockedTaskList,
 });
 
-export const onAddTask = (author, email, text, id) => ({
+export const onAddTask = (author, email, text, img, id) => ({
   type: ADD_TASK,
-  author: encodeURIComponent(author),
-  email: encodeURIComponent(email),
-  text: encodeURIComponent(text),
-  isCompleted: false,
+  author: decodeURIComponent(encodeURIComponent(author)),
+  email: decodeURIComponent(encodeURIComponent(email)),
+  text: decodeURIComponent(encodeURIComponent(text)),
+  img,
   id,
+  isCompleted: false,
 });
 
 export const onFilterSelected = filter => ({
@@ -42,20 +43,21 @@ export const onStatusChange = (id, isCompleted) => ({
   flag: isCompleted,
 });
 
-export const onShowPreview = (author, email, text) => ({
+export const onShowPreview = (author, email, text, img) => ({
   type: SHOW_PREVIEW,
   payload: {
     author,
     email,
     text,
+    img,
   },
 });
 
-export const onHidePreview = ({
+export const onHidePreview = () => ({
   type: HIDE_PREVIEW,
 });
 
-export const onFormRefresh = ({
+export const onFormRefresh = () => ({
   type: FORM_REFRESH,
 });
 

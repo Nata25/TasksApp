@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import id from 'short-id';
-import Task from '../Task';
+import Task from '../Task/Task';
 import {
   onAddTask,
   onHidePreview,
@@ -22,12 +22,14 @@ const TaskPreview = props => (
         <button
           className="btn btn-primary mt-4 mr-3 float-right"
           onClick={() => {
+            const taskID = id.generate();
+            console.log(taskID);
             props.addTaskDispatch(
               props.task.author,
               props.task.email,
               props.task.text,
-              id.generate(),
-              false);
+              props.task.img,
+              taskID);
             props.onHidePreview();
             props.onFormRefresh();
           }}
@@ -66,16 +68,10 @@ const mapStateToProps = state => ({
   task: state.preview.data,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onHidePreview() {
-    dispatch(onHidePreview);
-  },
-  addTaskDispatch(name, email, text, id) {
-    dispatch(onAddTask(name, email, text, id));
-  },
-  onFormRefresh() {
-    dispatch(onFormRefresh);
-  },
+const mapDispatchToProps = ({
+  onHidePreview,
+  addTaskDispatch: onAddTask,
+  onFormRefresh,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskPreview);

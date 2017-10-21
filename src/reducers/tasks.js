@@ -11,6 +11,7 @@ const singleTaskReducer = (state, action) => {
         author: action.author,
         email: action.email,
         text: action.text,
+        img: action.img,
         id: action.id,
         isCompleted: false,
       };

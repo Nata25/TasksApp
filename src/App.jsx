@@ -29,7 +29,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Authorization/>
+        <Authorization />
         <section className="container">
           <h1 className="mb-5">Tasks List App
             <small className="d-block">React+Redux</small>

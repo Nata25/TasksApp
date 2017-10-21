@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { onStatusChange } from '../actions';
+import { onStatusChange } from '../../actions/index';
+import './style.css';
 
 const Task = (props) => {
   const {
@@ -10,6 +11,7 @@ const Task = (props) => {
     author,
     email,
     text,
+    img,
     isCompleted,
   } = props.task;
   const status = isCompleted ? 'completed' : 'in progress';
@@ -19,16 +21,23 @@ const Task = (props) => {
   return (
     <article>
       <div className="card-body border">
-        <p className="card-text">{decodeURIComponent(text)}</p>
+        {img && <figure className="card-img-top task-image-container">
+          <img
+            className="task-image"
+            src={img}
+            alt="Task description"
+          />
+        </figure>}
+        <p className="card-text mt-3">{text}</p>
         <small className="font-weight-light d-block">Author:
-          <span className="text-info ml-1">{decodeURIComponent(author)}</span>
+          <span className="text-info ml-1">{author}</span>
         </small>
         <small className="font-weight-light d-block mt-2">Email:
           <a
             className="ml-1"
-            href={`mailto:${decodeURIComponent(email)}`}
+            href={`mailto:${email}`}
             target="_blank"
-          >{decodeURIComponent(email)}</a>
+          >{email}</a>
         </small>
 
         <p className="font-weight-light mt-3">Status:
@@ -70,6 +79,7 @@ Task.defaultProps = {
     author: '',
     email: '',
     text: '',
+    img: '',
     isCompleted: false,
   },
 };
