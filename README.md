@@ -13,4 +13,6 @@
 
 Basic __Bootstrap__ components are used. (Except for Preview modal component, which has custom styles and Redux-based logic, unlike BS modal).
 
+Access project [on GitHub pages](https://nata25.github.io/TasksApp/).
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

@@ -25,5 +25,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://nata25.github.io/TasksApp/"
+  "homepage": "https://acquired-sailor.000webhostapp.com/"
 }
