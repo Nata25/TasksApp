@@ -162,7 +162,9 @@ class AddTask extends Component {
             <label htmlFor="description">Task description</label>
             <textarea
               id="description"
-              maxLength={600}
+              placeholder="up to 800 symbols"
+              rows={7}
+              maxLength={800}
               className="form-control"
               onKeyDown={this.customizeKeyDown}
               ref={(item) => {
