@@ -18,7 +18,6 @@ const Task = (props) => {
   let statusCheckbox;
   return (
     <article>
-      <img src="" className="card-img-top" />
       <div className="card-body border">
         <p className="card-text">{decodeURIComponent(text)}</p>
         <small className="font-weight-light d-block">Author:

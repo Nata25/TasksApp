@@ -7,6 +7,7 @@ import TaskList from './components/TaskList';
 import AddTask from './components/AddTask';
 import Sorter from './components/Sorter';
 import Filters from './components/Filters';
+import Footer from './components/Footer';
 import { onGetTasks } from './actions';
 import {
   BY_AUTHOR,
@@ -15,10 +16,6 @@ import {
 } from './helpers/';
 
 import './components/TaskPreview/styles.css';
-
-const mapDispatchToProps = ({
-  getTasks: onGetTasks,
-});
 
 class App extends Component {
   static propTypes = {
@@ -32,7 +29,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Authorization />
+        <Authorization/>
         <section className="container">
           <h1 className="mb-5">Tasks List App
             <small className="d-block">React+Redux</small>
@@ -47,10 +44,13 @@ class App extends Component {
           <AddTask />
           <TaskList />
         </section>
+        <Footer />
       </div>
     );
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(null, {
+  getTasks: onGetTasks,
+})(App);
 

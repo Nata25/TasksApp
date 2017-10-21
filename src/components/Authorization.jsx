@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,16 +8,23 @@ import {
 } from '../actions/';
 
 class Authorization extends Component {
+  static propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired,
+    logIn: PropTypes.func.isRequired,
+    logOut: PropTypes.func.isRequired,
+  };
+
+  static validateInput(lg, pw) {
+    return decodeURIComponent(encodeURIComponent(lg)) === 'admin'
+      && decodeURIComponent(encodeURIComponent(pw)) === '123';
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       isWarningDisplayed: false,
     };
   }
-
-  validateInput = (lg, pw) =>
-    decodeURIComponent(encodeURIComponent(lg)) === 'admin'
-      && decodeURIComponent(encodeURIComponent(pw)) === '123';
 
   render() {
     const { isLoggedIn, logIn, logOut } = this.props;
@@ -45,7 +52,7 @@ class Authorization extends Component {
                 method="post"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if (this.validateInput(this.login.value, this.password.value)) logIn();
+                  if (Authorization.validateInput(this.login.value, this.password.value)) logIn();
                   else {
                     this.setState({
                       isWarningDisplayed: true,
@@ -93,12 +100,6 @@ class Authorization extends Component {
     );
   }
 }
-
-Authorization.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  logIn: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   isLoggedIn: state.login,

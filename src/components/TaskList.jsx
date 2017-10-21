@@ -8,9 +8,13 @@ import {
 } from '../helpers';
 
 const TaskList = ({ tasks, sorting }) => {
+  // prepare for sorting Tasks in render
   let key;
+  // assume tasks initially are sorter by id
   if (sorting === INITIAL_ORDER) {
     key = 'id';
+  // if there's a sorting param, use it to address corresponding field in Task
+  // BY_NAME => name => task.name
   } else key = sorting.slice(3).toLowerCase();
   const sortingCallback = (item1, item2) => {
     if (item1[key] > item2[key]) return 1;

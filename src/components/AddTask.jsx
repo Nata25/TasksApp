@@ -27,6 +27,13 @@ class AddTask extends Component {
     }
   }
 
+  componentWillReceiveProps() {
+    // focus on first input after preview closing
+    if (this.props.previewShowing) {
+      this.author.focus();
+    }
+  }
+
   handlePreview = () => {
     // check form validity before opening preview
     if (this.state.isFormValid) {
