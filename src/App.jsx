@@ -33,7 +33,7 @@ class App extends Component {
       <div>
         <Authorization />
         <section className="container">
-          <h1 className="mb-5">Tasks List App
+          <h1 className="mb-5 text-center">Tasks List App
             <small className="d-block">React+Redux</small>
           </h1>
           <p>
