@@ -11,6 +11,7 @@ export const FORM_REFRESH = 'FORM_REFRESH';
 export const PREVENT_FORM_REFRESH = 'PREVENT_FORM_REFRESH';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const GET_PAGE = 'GET_PAGE';
 
 export const onGetTasks = () => ({
   type: GET_TASKS,
@@ -71,4 +72,9 @@ export const onLogin = () => ({
 
 export const onLogout = () => ({
   type: LOGOUT,
+});
+
+export const onPaginationClick = page => ({
+  type: GET_PAGE,
+  page,
 });

@@ -55,6 +55,11 @@ const Task = (props) => {
             ref={(item) => {
               statusCheckbox = item;
             }}
+            onKeyDown={(e) => {
+              if (e.keyCode === 13) {
+                e.target.click();
+              }
+            }}
             onChange={() => {
               props.onStatusChange(id, statusCheckbox.checked);
             }}

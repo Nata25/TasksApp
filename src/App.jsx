@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
 
 import Authorization from './components/Authorization';
 import TaskList from './components/TaskList';
 import AddTask from './components/AddTask';
 import Sorter from './components/Sorter';
 import Filters from './components/Filters';
+import Pagination from './components/Pagination';
 import Footer from './components/Footer';
 import { onGetTasks } from './actions';
 import {
@@ -42,7 +44,11 @@ class App extends Component {
           </p>
           <Filters />
           <AddTask />
-          <TaskList />
+          <Switch>
+            <Route exact path="/" component={TaskList} />
+            <Route path="/:number" component={TaskList} />
+          </Switch>
+          <Pagination />
         </section>
         <Footer />
       </div>

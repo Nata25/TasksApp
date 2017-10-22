@@ -6,8 +6,8 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-image-resizer": "^1.2.0",
     "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.11",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
@@ -27,5 +27,5 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://acquired-sailor.000webhostapp.com/"
+  "homepage": "https://nata25.github.io/TasksApp/"
 }
